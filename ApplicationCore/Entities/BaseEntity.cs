@@ -12,6 +12,10 @@ namespace Edgias.Inventory.Management.ApplicationCore.Entities
 
         public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.Now;
 
+        public string CreatedBy { get; set; }
+
+        public string LastModifiedBy { get; set; }
+
         public bool IsActive { get; private set; } = true;
 
         public bool IsDeleted { get; private set; }
