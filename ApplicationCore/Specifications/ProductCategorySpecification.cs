@@ -1,16 +1,19 @@
 ﻿using Edgias.Inventory.Management.ApplicationCore.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace Edgias.Inventory.Management.ApplicationCore.Specifications
 {
     public class ProductCategorySpecification : BaseSpecification<ProductCategory>
     {
-        public ProductCategorySpecification(Expression<Func<ProductCategory, bool>> criteria) 
-            : base(criteria)
+        public ProductCategorySpecification(string searchQuery)
+            : base(pc => string.IsNullOrEmpty(searchQuery) || pc.Name.Contains(searchQuery) || pc.Description.Contains(searchQuery))
         {
+        }
+
+        public ProductCategorySpecification(int skip, int take, string searchQuery) 
+            : base(pc => string.IsNullOrEmpty(searchQuery) || pc.Name.Contains(searchQuery) || pc.Description.Contains(searchQuery))
+        {
+            ApplyOrderBy(pc => pc.Name);
+            ApplyPaging(skip, take);
         }
     }
 }
