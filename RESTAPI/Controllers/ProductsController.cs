@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Edgias.Inventory.Management.ApplicationCore.Entities;
+﻿using Edgias.Inventory.Management.ApplicationCore.Entities;
 using Edgias.Inventory.Management.ApplicationCore.Exceptions;
 using Edgias.Inventory.Management.ApplicationCore.Interfaces;
 using Edgias.Inventory.Management.ApplicationCore.Specifications;
+using Edgias.Inventory.Management.RESTAPI.Interfaces;
+using Edgias.Inventory.Management.RESTAPI.Models.Requests;
+using Edgias.Inventory.Management.RESTAPI.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RESTAPI.Interfaces;
-using RESTAPI.Models.Form;
-using RESTAPI.Models.View;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace RESTAPI.Controllers
+namespace Edgias.Inventory.Management.RESTAPI.Controllers
 {
     [ApiController]
     [Route("v1.0")]
@@ -20,11 +20,11 @@ namespace RESTAPI.Controllers
     {
         private readonly IAppLogger<ProductsController> _logger;
         private readonly IAsyncRepository<Product> _repository;
-        private readonly IMapper<Product, ProductFormApiModel, ProductApiModel> _mapper;
+        private readonly IMapper<Product, ProductRequest, ProductResponse> _mapper;
 
         public ProductsController(IAppLogger<ProductsController> logger,
             IAsyncRepository<Product> repository,
-            IMapper<Product, ProductFormApiModel, ProductApiModel> mapper)
+            IMapper<Product, ProductRequest, ProductResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -64,7 +64,7 @@ namespace RESTAPI.Controllers
 
             if (products.Any())
             {
-                ApiResponse<ProductApiModel> response = new ApiResponse<ProductApiModel>
+                ApiResponse<ProductResponse> response = new()
                 {
                     Data = products.Select(p => _mapper.Map(p)),
                     Total = await _repository.CountAsync(new ProductSpecification(searchQuery))
@@ -83,7 +83,7 @@ namespace RESTAPI.Controllers
 
             if (products.Any())
             {
-                ApiResponse<ProductApiModel> response = new ApiResponse<ProductApiModel>
+                ApiResponse<ProductResponse> response = new ApiResponse<ProductResponse>
                 {
                     Data = products.Select(p => _mapper.Map(p)),
                     Total = await _repository.CountAsync(new ProductSpecification(productCategoryId, searchQuery))
@@ -109,11 +109,11 @@ namespace RESTAPI.Controllers
         }
 
         [HttpPost("products")]
-        public async Task<IActionResult> Post(ProductFormApiModel apiModel)
+        public async Task<IActionResult> Post(ProductRequest request)
         {
             try
             {
-                Product product = _mapper.Map(apiModel);
+                Product product = _mapper.Map(request);
 
                 product = await _repository.AddAsync(product);
 
@@ -122,13 +122,13 @@ namespace RESTAPI.Controllers
 
             catch(DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("products/{id}")]
-        public async Task<IActionResult> Put(Guid id, ProductFormApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, ProductRequest request)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace RESTAPI.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(product, apiModel);
+                _mapper.Map(product, request);
 
                 await _repository.UpdateAsync(product);
 
@@ -148,7 +148,7 @@ namespace RESTAPI.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 

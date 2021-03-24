@@ -2,17 +2,17 @@
 using Edgias.Inventory.Management.ApplicationCore.Exceptions;
 using Edgias.Inventory.Management.ApplicationCore.Interfaces;
 using Edgias.Inventory.Management.ApplicationCore.Specifications;
+using Edgias.Inventory.Management.RESTAPI.Interfaces;
+using Edgias.Inventory.Management.RESTAPI.Models.Requests;
+using Edgias.Inventory.Management.RESTAPI.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RESTAPI.Interfaces;
-using RESTAPI.Models.Form;
-using RESTAPI.Models.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RESTAPI.Controllers
+namespace Edgias.Inventory.Management.RESTAPI.Controllers
 {
     [ApiController]
     [Route("v1.0/product-categories")]
@@ -20,11 +20,11 @@ namespace RESTAPI.Controllers
     {
         private readonly IAppLogger<ProductCategoriesController> _logger;
         private readonly IAsyncRepository<ProductCategory> _repository;
-        private readonly IMapper<ProductCategory, ProductCategoryFormApiModel, ProductCategoryApiModel> _mapper;
+        private readonly IMapper<ProductCategory, ProductCategoryRequest, ProductCategoryResponse> _mapper;
 
         public ProductCategoriesController(IAppLogger<ProductCategoriesController> logger,
             IAsyncRepository<ProductCategory> repository,
-            IMapper<ProductCategory, ProductCategoryFormApiModel, ProductCategoryApiModel> mapper)
+            IMapper<ProductCategory, ProductCategoryRequest, ProductCategoryResponse> mapper)
         {
             _logger = logger;
             _repository = repository;
@@ -52,7 +52,7 @@ namespace RESTAPI.Controllers
 
             if (productCategories.Any())
             {
-                ApiResponse<ProductCategoryApiModel> response = new ApiResponse<ProductCategoryApiModel>
+                ApiResponse<ProductCategoryResponse> response = new()
                 {
                     Data = productCategories.Select(p => _mapper.Map(p)),
                     Total = await _repository.CountAsync(new ProductCategorySpecification(searchQuery))
@@ -79,11 +79,11 @@ namespace RESTAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ProductCategoryFormApiModel apiModel)
+        public async Task<IActionResult> Post(ProductCategoryRequest request)
         {
             try
             {
-                ProductCategory productCategory = _mapper.Map(apiModel);
+                ProductCategory productCategory = _mapper.Map(request);
 
                 productCategory = await _repository.AddAsync(productCategory);
 
@@ -92,13 +92,13 @@ namespace RESTAPI.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, ProductCategoryFormApiModel apiModel)
+        public async Task<IActionResult> Put(Guid id, ProductCategoryRequest request)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace RESTAPI.Controllers
                     return NotFound();
                 }
 
-                _mapper.Map(productCategory, apiModel);
+                _mapper.Map(productCategory, request);
 
                 await _repository.UpdateAsync(productCategory);
 
@@ -118,7 +118,7 @@ namespace RESTAPI.Controllers
 
             catch (DataStoreException e)
             {
-                _logger.LogError(e.Message, e, apiModel);
+                _logger.LogError(e.Message, e, request);
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 

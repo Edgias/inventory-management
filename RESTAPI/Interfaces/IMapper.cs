@@ -1,4 +1,4 @@
-﻿namespace RESTAPI.Interfaces
+﻿namespace Edgias.Inventory.Management.RESTAPI.Interfaces
 {
     public interface IMapper<TEntity, TFormApiModel, TApiModel>
     {

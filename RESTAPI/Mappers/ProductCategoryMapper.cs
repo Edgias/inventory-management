@@ -1,46 +1,34 @@
 ﻿using Edgias.Inventory.Management.ApplicationCore.Entities;
-using RESTAPI.Interfaces;
-using RESTAPI.Models.Form;
-using RESTAPI.Models.View;
-using System;
+using Edgias.Inventory.Management.RESTAPI.Interfaces;
+using Edgias.Inventory.Management.RESTAPI.Models.Requests;
+using Edgias.Inventory.Management.RESTAPI.Models.Responses;
 
-namespace RESTAPI.Mappers
+namespace Edgias.Inventory.Management.RESTAPI.Mappers
 {
-    public class ProductCategoryMapper : IMapper<ProductCategory, ProductCategoryFormApiModel, ProductCategoryApiModel>
+    public class ProductCategoryMapper : IMapper<ProductCategory, ProductCategoryRequest, ProductCategoryResponse>
     {
-        public ProductCategory Map(ProductCategoryFormApiModel apiModel)
+        public ProductCategory Map(ProductCategoryRequest request)
         {
-            ProductCategory entity = new ProductCategory
-            {
-                CreatedBy = apiModel.UserId
-            };
-
-            Map(entity, apiModel);
+            ProductCategory entity = new(request.Name, request.Description);
 
             return entity;
         }
 
-        public ProductCategoryApiModel Map(ProductCategory entity)
+        public ProductCategoryResponse Map(ProductCategory entity)
         {
-            ProductCategoryApiModel apiModel = new ProductCategoryApiModel
+            ProductCategoryResponse response = new()
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Description = entity.Description,
-                CreatedDate = entity.CreatedDate,
-                IsActive = entity.IsActive,
-                LastModifiedDate = entity.LastModifiedDate
+                Description = entity.Description
             };
 
-            return apiModel;
+            return response;
         }
 
-        public void Map(ProductCategory entity, ProductCategoryFormApiModel apiModel)
+        public void Map(ProductCategory entity, ProductCategoryRequest request)
         {
-            entity.Name = apiModel.Name;
-            entity.Description = apiModel.Description;
-            entity.LastModifiedBy = apiModel.UserId;
-            entity.LastModifiedDate = DateTimeOffset.Now;
+            entity.UpdateDetails(request.Name, request.Description);
         }
     }
 }
