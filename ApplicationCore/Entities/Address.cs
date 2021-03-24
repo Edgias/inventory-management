@@ -2,9 +2,7 @@
 {
     public class Address
     {
-        public string Street1 { get; private set; }
-
-        public string Street2 { get; private set; }
+        public string Street { get; private set; }
 
         public string City { get; private set; }
 
@@ -16,10 +14,9 @@
 
         private Address() { }
 
-        public Address(string street1, string street2, string city, string state, string zipCode, string country)
+        public Address(string street, string city, string state, string zipCode, string country)
         {
-            Street1 = street1;
-            Street2 = street2;
+            Street = street;
             City = city;
             State = state;
             ZipCode = zipCode;

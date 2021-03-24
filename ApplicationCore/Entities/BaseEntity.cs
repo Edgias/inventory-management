@@ -8,13 +8,13 @@ namespace Edgias.Inventory.Management.ApplicationCore.Entities
     {
         public Guid Id { get; set; }
 
-        public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset CreatedDate { get; protected set; } = DateTimeOffset.Now;
 
-        public DateTimeOffset LastModifiedDate { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset LastModifiedDate { get; protected set; } = DateTimeOffset.Now;
 
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; protected set; }
 
-        public string LastModifiedBy { get; set; }
+        public string LastModifiedBy { get; protected set; }
 
         public bool IsActive { get; private set; } = true;
 
