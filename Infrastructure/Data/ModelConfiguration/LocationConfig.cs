@@ -24,10 +24,7 @@ namespace Edgias.Inventory.Management.Infrastructure.Data.ModelConfiguration
                 a.Property(a => a.ZipCode)
                     .HasMaxLength(18);
 
-                a.Property(a => a.Street1)
-                    .HasMaxLength(180);
-
-                a.Property(a => a.Street2)
+                a.Property(a => a.Street)
                     .HasMaxLength(180);
 
                 a.Property(a => a.State)
