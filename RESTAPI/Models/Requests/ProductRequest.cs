@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace RESTAPI.Models.Form
+namespace Edgias.Inventory.Management.RESTAPI.Models.Requests
 {
-    public class ProductFormApiModel : BaseFormApiModel
+    public class ProductRequest 
     {
         public string Name { get; set; }
 

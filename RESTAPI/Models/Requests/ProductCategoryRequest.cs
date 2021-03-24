@@ -1,6 +1,6 @@
-﻿namespace RESTAPI.Models.Form
+﻿namespace Edgias.Inventory.Management.RESTAPI.Models.Requests
 {
-    public class ProductCategoryFormApiModel : BaseFormApiModel
+    public class ProductCategoryRequest 
     {
         public string Name { get; set; }
 

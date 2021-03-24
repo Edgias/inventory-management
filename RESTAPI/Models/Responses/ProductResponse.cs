@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace RESTAPI.Models.View
+namespace Edgias.Inventory.Management.RESTAPI.Models.Responses
 {
-    public class ProductApiModel : BaseApiModel
+    public class ProductResponse 
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string ProductCode { get; set; }

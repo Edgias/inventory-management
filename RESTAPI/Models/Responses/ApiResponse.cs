@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RESTAPI.Models.View
+namespace Edgias.Inventory.Management.RESTAPI.Models.Responses
 {
     public class ApiResponse<T>
     {
