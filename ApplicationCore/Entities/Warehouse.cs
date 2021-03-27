@@ -29,11 +29,13 @@ namespace Edgias.Inventory.Management.ApplicationCore.Entities
         public void UpdateDetails(string name)
         {
             Name = name;
+            LastModifiedDate = DateTimeOffset.UtcNow;
         }
 
         public void ChangeLocation(Guid locationId)
         {
             LocationId = locationId;
+            LastModifiedDate = DateTimeOffset.UtcNow;
         }
     }
 }
