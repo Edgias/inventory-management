@@ -6,15 +6,11 @@ namespace Edgias.Inventory.Management.ApplicationCore.Entities
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
-        public DateTimeOffset CreatedDate { get; protected set; } = DateTimeOffset.Now;
+        public DateTimeOffset CreatedDate { get; private set; } = DateTimeOffset.UtcNow;
 
-        public DateTimeOffset LastModifiedDate { get; protected set; } = DateTimeOffset.Now;
-
-        public string CreatedBy { get; protected set; }
-
-        public string LastModifiedBy { get; protected set; }
+        public DateTimeOffset LastModifiedDate { get; protected set; } = DateTimeOffset.UtcNow;
 
         public bool IsActive { get; private set; } = true;
 

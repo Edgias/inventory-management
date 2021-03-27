@@ -2,10 +2,10 @@
 {
     public interface IMapper<TEntity, TFormApiModel, TApiModel>
     {
-        TEntity Map(TFormApiModel apiModel);
+        TEntity Map(TFormApiModel request);
 
         TApiModel Map(TEntity entity);
 
-        void Map(TEntity entity, TFormApiModel apiModel);
+        void Map(TEntity entity, TFormApiModel request);
     }
 }
