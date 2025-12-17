@@ -1,0 +1,9 @@
+﻿global using EdgIQ.Inventory.Domain.Entities;
+global using EdgIQ.Inventory.Domain.Events;
+global using EdgIQ.Inventory.Infrastructure.Identity;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using System.Reflection;
