@@ -2,34 +2,39 @@
 
 public class Warehouse : BaseEntity
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = default!;
 
-    public int LocationId { get; private set; }
+    public string? Phone {  get; private set; } 
 
-    public Location Location { get; private set; }
+    public string? ManagerId { get; private set; }
 
-    private readonly List<Bin> _bins = [];
+    public Address? LocationAddress { get; private set; } = default!;
 
-    public IReadOnlyCollection<Bin> Bins => _bins.AsReadOnly();
+    private readonly List<WarehouseStock> _warehouseStocks = [];
+    public IReadOnlyCollection<WarehouseStock> WarehouseStocks => _warehouseStocks.AsReadOnly();
 
     private Warehouse()
     {
-
     }
 
-    public Warehouse(string name, int locationId)
+    public Warehouse(string name, string? phone, string? managerId, Address? locationAddress)
     {
         Name = name;
-        LocationId = locationId;
+        Phone = phone;
+        ManagerId = managerId;
+        LocationAddress = locationAddress;
     }
 
-    public void Update(string name)
+    public void Update(string name, string? phone, string? managerId, Address? locationAddress)
     {
         Name = name;
+        Phone = phone;
+        ManagerId = managerId;
+        LocationAddress = locationAddress;
     }
 
-    public void ChangeLocation(int locationId)
-    {
-        LocationId = locationId;
+    public void ChangeManager(string managerId)
+    { 
+        ManagerId = managerId; 
     }
 }

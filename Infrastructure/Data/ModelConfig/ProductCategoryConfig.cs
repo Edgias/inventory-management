@@ -1,23 +1,19 @@
 ﻿namespace EdgIQ.Inventory.Infrastructure.Data.ModelConfig;
 
-internal class ProductCategoryConfig : IEntityTypeConfiguration<ProductCategory>
+internal class ProductCategoryConfig : BaseEntityConfig<ProductCategory>
 {
-    public void Configure(EntityTypeBuilder<ProductCategory> builder)
+    public override void Configure(EntityTypeBuilder<ProductCategory> builder)
     {
-        builder.HasKey(pc => pc.Id);
-
-        builder.Property(pc => pc.Id)
-            .ValueGeneratedOnAdd();
-
-        builder.Property(pc => pc.Name)
-            .HasMaxLength(180)
-            .IsRequired();
-
-        builder.Property(pc => pc.Description)
-            .HasMaxLength(256)
-            .IsRequired();
+        base.Configure(builder);
 
         builder.HasIndex(pc => pc.Name)
             .IsUnique();
+
+        builder.Property(pc => pc.Name)
+            .HasMaxLength(90)
+            .IsRequired();
+
+        builder.Property(pc => pc.Description)
+            .HasMaxLength(256);
     }
 }

@@ -1,28 +1,22 @@
-﻿namespace EdgIQ.Inventory.Infrastructure.Data.ModelConfig
+﻿namespace EdgIQ.Inventory.Infrastructure.Data.ModelConfig;
+
+internal class BinConfig : BaseEntityConfig<Bin>
 {
-    internal class BinConfig : IEntityTypeConfiguration<Bin>
+    public override void Configure(EntityTypeBuilder<Bin> builder)
     {
-        public void Configure(EntityTypeBuilder<Bin> builder)
-        {
-            builder.HasKey(b => b.Id);
+        base.Configure(builder);
 
-            builder.Property(b => b.Id)
-                .ValueGeneratedOnAdd();
+        builder.Property(b => b.Name)
+            .HasMaxLength(50)
+            .IsRequired();
 
-            builder.Property(b => b.Name)
-                .HasMaxLength(180)
-                .IsRequired();
+        builder.Property(b => b.SerialNumber)
+            .HasMaxLength(50);
 
-            builder.Property(b => b.SerialNumber)
-                .HasMaxLength(50)
-                .IsRequired();
+        builder.Property(b => b.Color)
+            .HasMaxLength(30);
 
-            builder.Property(b => b.Color)
-                .HasMaxLength(90)
-                .IsRequired();
-
-            builder.HasIndex(b => new { b.Name, b.SerialNumber })
-                .IsUnique();
-        }
+        builder.Property(b => b.Weight)
+            .HasPrecision(18, 2);
     }
 }

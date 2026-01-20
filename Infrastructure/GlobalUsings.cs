@@ -1,6 +1,10 @@
 ﻿global using EdgIQ.Inventory.Domain.Entities;
 global using EdgIQ.Inventory.Domain.Events;
+global using EdgIQ.Inventory.Domain.Interfaces;
 global using EdgIQ.Inventory.Infrastructure.Identity;
+global using EdgIQ.Inventory.Infrastructure.Data;
+global using EdgIQ.Inventory.Shared.Enums;
+global using EdgIQ.Inventory.Shared.Requests;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore;

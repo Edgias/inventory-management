@@ -76,7 +76,7 @@ builder.Services.AddCurrentUser();
 // Configure Open API
 builder.Services.AddOpenApi(options => options.AddBearerTokenAuthentication());
 
-// Configure rate limiting
+builder.Services.AddValidation();
 builder.Services.AddRateLimiting();
 
 builder.Services.AddHttpLogging(o =>
